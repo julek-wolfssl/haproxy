@@ -2,6 +2,11 @@
 #define _HAPROXY_OPENSSL_COMPAT_H
 #ifdef USE_OPENSSL
 
+#ifdef USE_WOLFSSL
+#include <wolfssl/options.h>
+#include <openssl/ssl.h>
+#endif
+
 #include <openssl/bn.h>
 #include <openssl/crypto.h>
 #include <openssl/ssl.h>
@@ -319,9 +324,11 @@ static inline void SSL_CTX_up_ref(SSL_CTX *ctx)
 #define SSL_OP_CIPHER_SERVER_PREFERENCE 0
 #endif
 
+#ifndef USE_WOLFSSL
 #ifndef SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION   /* needs OpenSSL >= 0.9.7 */
 #define SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION 0
 #define SSL_renegotiate_pending(arg) 0
+#endif
 #endif
 
 #ifndef SSL_OP_SINGLE_ECDH_USE                          /* needs OpenSSL >= 0.9.8 */

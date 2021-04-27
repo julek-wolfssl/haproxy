@@ -11,7 +11,7 @@
 
 varnishtest "Test the 'del ssl crt-list' feature of the CLI"
 #REQUIRE_VERSION=2.2
-#REQUIRE_OPTIONS=OPENSSL
+#REQUIRE_OPTIONS=OPENSSL|WOLFSSL
 feature ignore_unknown_macro
 
 server s1 -repeat 2 {

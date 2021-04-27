@@ -2590,11 +2590,24 @@ static void set_identity(const char *program_name)
 	}
 }
 
+#ifdef USE_WOLFSSL
+static void logMsg(const int logLevel, const char* const msg)
+{
+    (void)logLevel;
+    ha_notice("wolfSSL debug log: %s\n", msg);
+}
+#endif
+
 int main(int argc, char **argv)
 {
 	int err, retry;
 	struct rlimit limit;
 	int pidfd = -1;
+
+#ifdef USE_WOLFSSL
+	wolfSSL_Debugging_ON();
+	wolfSSL_SetLoggingCb(logMsg);
+#endif
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 

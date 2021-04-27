@@ -1321,7 +1321,7 @@ int ssl_sock_ocsp_stapling_cbk(SSL *ssl, void *arg)
 		return SSL_TLSEXT_ERR_NOACK;
 
 	memcpy(ssl_buf, ocsp->response.area, ocsp->response.data);
-	SSL_set_tlsext_status_ocsp_resp(ssl, ssl_buf, ocsp->response.data);
+	SSL_set_tlsext_status_ocsp_resp(ssl, (unsigned char*)ssl_buf, ocsp->response.data);
 
 	return SSL_TLSEXT_ERR_OK;
 }
@@ -1371,7 +1371,11 @@ static int ssl_sock_load_ocsp(SSL_CTX *ctx, const struct cert_key_and_chain *ckc
 	struct certificate_ocsp *ocsp = NULL, *iocsp;
 	char *warn = NULL;
 	unsigned char *p;
+#ifndef USE_WOLFSSL
 	void (*callback) (void);
+#else
+	tlsextStatusCb callback;
+#endif
 
 
 	x = ckch->cert;
@@ -2290,7 +2294,9 @@ struct methodVersions methodVersions[] = {
 static void ssl_sock_switchctx_set(SSL *ssl, SSL_CTX *ctx)
 {
 	SSL_set_verify(ssl, SSL_CTX_get_verify_mode(ctx), ssl_sock_bind_verifycbk);
+#ifndef USE_WOLFSSL
 	SSL_set_client_CA_list(ssl, SSL_dup_CA_list(SSL_CTX_get_client_CA_list(ctx)));
+#endif
 	SSL_set_SSL_CTX(ssl, ctx);
 }
 
@@ -3157,6 +3163,7 @@ static int ssl_sock_load_cert_chain(const char *path, const struct cert_key_and_
 				errcode |= ERR_ALERT | ERR_FATAL;
 				goto end;
 			}
+		sk_X509_free(chain);
 	}
 #endif
 

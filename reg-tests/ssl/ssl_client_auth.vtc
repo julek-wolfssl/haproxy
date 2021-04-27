@@ -16,7 +16,7 @@
 
 varnishtest "Test the client auth"
 #REQUIRE_VERSION=1.6
-#REQUIRE_OPTIONS=OPENSSL
+#REQUIRE_OPTIONS=OPENSSL|WOLFSSL
 feature ignore_unknown_macro
 
 server s1 -repeat 3 {

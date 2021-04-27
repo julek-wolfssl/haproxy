@@ -2,7 +2,7 @@
 
 varnishtest "Test the ssl_f_* sample fetches"
 #REQUIRE_VERSION=1.5
-#REQUIRE_OPTIONS=OPENSSL
+#REQUIRE_OPTIONS=OPENSSL|WOLFSSL
 feature ignore_unknown_macro
 
 server s1 -repeat 3 {

@@ -12,7 +12,7 @@
 
 varnishtest "Test the 'add ssl crt-list' feature of the CLI"
 #REQUIRE_VERSION=2.2
-#REQUIRE_OPTIONS=OPENSSL
+#REQUIRE_OPTIONS=OPENSSL|WOLFSSL
 #REQUIRE_BINARIES=socat
 feature ignore_unknown_macro
 

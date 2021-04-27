@@ -1673,7 +1673,11 @@ static int sample_conv_sha2(const struct arg *arg_p, struct sample *smp, void *p
 
 	switch (bits) {
 	case 224: {
+#ifdef USE_WOLFSSL
+		SHA224_CTX ctx;
+#else
 		SHA256_CTX ctx;
+#endif
 
 		memset(&ctx, 0, sizeof(ctx));
 
@@ -1695,7 +1699,11 @@ static int sample_conv_sha2(const struct arg *arg_p, struct sample *smp, void *p
 		break;
 	}
 	case 384: {
-		SHA512_CTX ctx;
+#ifdef USE_WOLFSSL
+	    SHA384_CTX ctx;
+#else
+	    SHA512_CTX ctx;
+#endif
 
 		memset(&ctx, 0, sizeof(ctx));
 

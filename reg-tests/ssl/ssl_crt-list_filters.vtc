@@ -5,7 +5,7 @@ varnishtest "Test for the bug #810 and #818"
 
 
 #REQUIRE_VERSION=2.2
-#REQUIRE_OPTIONS=OPENSSL
+#REQUIRE_OPTIONS=OPENSSL|WOLFSSL
 feature ignore_unknown_macro
 
 server s1 -repeat 3 {

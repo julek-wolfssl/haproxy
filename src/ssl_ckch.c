@@ -668,8 +668,14 @@ struct cert_key_and_chain *ssl_sock_copy_cert_key_and_chain(struct cert_key_and_
 	}
 
 	if (src->dh) {
+#ifndef USE_WOLFSSL
 		DH_up_ref(src->dh);
 		dst->dh = src->dh;
+#else
+		dst->dh = wolfSSL_DH_dup(src->dh);
+		if (!dst->dh)
+		    goto error;
+#endif
 	}
 
 	if (src->sctl) {
